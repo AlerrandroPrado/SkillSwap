@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário - Microsoft Teams Style</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="Logo.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Barra de Navegação */
+        .navbar {
+            background-color: #222;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar .navbar-brand {
+            color: white;
+            font-size: 24px;
+        }
+
+        .navbar .navbar-search {
+            flex-grow: 1;
+            max-width: 500px;
+            margin-right: 20px;
+        }
+
+        .navbar .navbar-search input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+        }
+
+        .navbar .profile-menu {
+            position: relative;
+        }
+
+        .navbar .profile-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            min-width: 150px;
+        }
+
+        .profile-dropdown a {
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .profile-menu.open .profile-dropdown {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 100%;
+            background-color: #222;
+            color: white;
+            padding-top: 50px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 20px;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #444;
+        }
+
+        .sidebar .active {
+            background-color: #28a745;
+        }
+
+        /* Main content */
+        .content {
+            margin-left: 80px;
+            margin-top: 70px; /* Ajusta para a altura da navbar */
+            width: 100%;
+            padding: 20px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Calendar */
+        .calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .calendar-header button:hover {
+            background-color: #218838;
+        }
+
+        .calendar-body {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day {
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #fff;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-day:hover {
+            background-color: #e9f7ef;
+        }
+
+        .calendar-day.today {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+
+        .event-popup {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            width: 300px;
+            z-index: 100;
+        }
+
+        .event-popup input, .event-popup textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .event-popup button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .event-popup button:hover {
+            background-color: #218838;
+        }
+
+        /* Event List */
+        .event-list {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .event-list .event {
+            background-color: #f1f1f1;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .event-list .event:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"></a>
+        
+        <!-- Barra de Pesquisa -->
+        <div class="navbar-search">
+            <input type="text" class="form-control" placeholder="Pesquisar...">
+        </div>
+
+        <!-- Foto de Perfil e Menu -->
+        <div class="profile-menu" id="profileMenu">
+            <img src="https://via.placeholder.com/150" alt="Foto de Perfil" id="profileImage">
+            <div class="profile-dropdown">
+                <a href="#">Configurações</a>
+                <a href="#" onclick="logOut()">Encerrar Sessão</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="index2.html"><i class="fas fa-home"></i></a>
+        <a href="chat.html"><i class="fas fa-comments"></i></a>
+        <a href="calendar.html" class="active"><i class="fas fa-calendar-alt"></i></a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="calendar">
+            <!-- Calendar Header -->
+            <div class="calendar-header">
+                <button id="prevMonthBtn">&lt; Mês Anterior</button>
+                <span id="currentMonth">Janeiro 2024</span>
+                <button id="nextMonthBtn">Próximo Mês &gt;</button>
+            </div>
+
+            <!-- Calendar Body -->
+            <div class="calendar-body" id="calendarBody"></div>
+        </div>
+
+        <!-- Event Popup -->
+        <div class="event-popup" id="eventPopup">
+            <h4>Adicionar Evento</h4>
+            <input type="text" id="eventTitle" placeholder="Título do Evento" />
+            <textarea id="eventDescription" placeholder="Descrição"></textarea>
+            <button id="saveEventBtn">Salvar Evento</button>
+            <button id="cancelEventBtn" style="background-color: #ccc;">Cancelar</button>
+        </div>
+
+        <!-- Event List -->
+        <div class="event-list" id="eventList">
+            <h5>Eventos</h5>
+            <div id="events"></div>
+        </div>
+    </div>
+
+    <script>
+        // Função para abrir/fechar o menu de perfil
+        const profileMenu = document.getElementById('profileMenu');
+        const profileImage = document.getElementById('profileImage');
+
+        profileImage.addEventListener('click', () => {
+            profileMenu.classList.toggle('open');
+        });
+
+        // Função para simular o encerramento da sessão
+        function logOut() {
+            alert("Sessão encerrada!");
+            // Redireciona para outra página após o alerta
+            window.location.href = 'index.html';  // Substitua 'login.html' pelo arquivo para o qual você deseja redirecionar
+        }
+
+        const currentDate = new Date();
+        let selectedDate = new Date();
+        let events = {};
+
+        // Atualiza o título do mês
+        function updateMonthTitle() {
+            const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+            const month = selectedDate.getMonth();
+            const year = selectedDate.getFullYear();
+            document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+        }
+
+        // Preenche o calendário com os dias do mês
+        function fillCalendar() {
+            const firstDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+            const lastDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+            const firstDayOfWeek = firstDayOfMonth.getDay();
+            const lastDay = lastDayOfMonth.getDate();
+
+            const calendarBody = document.getElementById('calendarBody');
+            calendarBody.innerHTML = '';
+
+            let day = 1;
+
+            // Preencher as células vazias antes do primeiro dia
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                calendarBody.innerHTML += `<div class="calendar-day"></div>`;
+            }
+
+            // Preencher os dias do mês
+            for (let i = firstDayOfWeek; day <= lastDay; i++) {
+                const todayClass = (day === currentDate.getDate() && selectedDate.getMonth() === currentDate.getMonth()) ? 'today' : '';
+                calendarBody.innerHTML += `<div class="calendar-day ${todayClass}" onclick="showEventPopup(${day})">${day}</div>`;
+                day++;
+            }
+        }
+
+        // Mostrar popup de evento
+        function showEventPopup(day) {
+            selectedDate.setDate(day);
+            const eventPopup = document.getElementById('eventPopup');
+            eventPopup.style.display = 'block';
+        }
+
+        // Salvar evento
+        function saveEvent() {
+            const eventTitle = document.getElementById('eventTitle').value;
+            const eventDescription = document.getElementById('eventDescription').value;
+            const eventDate = selectedDate.toDateString();
+
+            if (!events[eventDate]) {
+                events[eventDate] = [];
+            }
+
+            events[eventDate].push({ title: eventTitle, description: eventDescription });
+
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDescription').value = '';
+            document.getElementById('eventPopup').style.display = 'none';
+
+            updateEventList();
+            fillCalendar();
+        }
+
+        // Atualizar a lista de eventos
+        function updateEventList() {
+            const eventList = document.getElementById('events');
+            eventList.innerHTML = '';
+            for (const date in events) {
+                events[date].forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.classList.add('event');
+                    eventElement.textContent = `${event.title} - ${event.description}`;
+                    eventList.appendChild(eventElement);
+                });
+            }
+        }
+
+        // Navegação entre meses
+        document.getElementById('prevMonthBtn').addEventListener('click', () => {
+            selectedDate.setMonth(selectedDate.getMonth() - 1);
+            updateMonthTitle();
+            fillCalendar();
+        });
+
+        document.getElementById('nextMonthBtn').addEventListener('click', () => {
+            selectedDate.setMonth(selectedDate.getMonth() + 1);
+            updateMonthTitle();
+            fillCalendar();
+        });
+
+        document.getElementById('saveEventBtn').addEventListener('click', saveEvent);
+        document.getElementById('cancelEventBtn').addEventListener('click', () => {
+            document.getElementById('eventPopup').style.display = 'none';
+        });
+
+        // Inicializa o calendário
+        updateMonthTitle();
+        fillCalendar();
+    </script>
+
+</body>
+</html>

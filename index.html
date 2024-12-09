@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+  <script src="color-modes.js"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.122.0">
+  <link rel="icon" href="Logo.png" type="image/png">
+  <title>SkillSwap</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/">
+
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+  <link href="bootstrap.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="index.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="check2" viewBox="0 0 16 16">
+      <path
+        d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+    </symbol>
+    <symbol id="circle-half" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+    </symbol>
+    <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+      <path
+        d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+      <path
+        d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" />
+    </symbol>
+    <symbol id="sun-fill" viewBox="0 0 16 16">
+      <path
+        d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+    </symbol>
+  </svg>
+
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="aperture" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+      stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94" />
+    </symbol>
+    <symbol id="chevron-right" viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+    </symbol>
+  </svg>
+
+  <nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark">
+    <div class="container">
+      <a class="navbar-brand d-md-none" href="#">
+        <svg class="bi" width="24" height="24">
+          <use xlink:href="#aperture" />
+        </svg>
+        SkillSwap
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+        aria-controls="offcanvas" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasLabel">SkillSwap</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav flex-grow-1 justify-content-between">
+            <li class="nav-item"><a class="nav-link" href="#">
+                <svg class="bi" width="24" height="24">
+                  <use xlink:href="#aperture" />
+                </svg>
+              </a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="recursos.html">Recursos</a></li>
+            
+            <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
+            <a href="login.html">
+              <button class="btn btn-success rounded-pill px-3" type="button">Entrar</button>
+             </a>
+              </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary2 color-change-2x">
+      <div class="col-md-6 p-lg-5 mx-auto my-5">
+        <h1 class="display-3 fw-bold text-focus-in" >Bem-vindo ao SkillSwap</h1>
+
+        <div class="fade-in-top">
+          <img src="Logo.png" alt="Descrição da Imagem" width="350" height="350">
+        </div>
+
+        <!--<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+          type="module"></script>
+        <dotlottie-player src="https://lottie.host/d4e3e20a-abf5-4040-8164-b73c419431f3/MgDZpZvo2F.json"
+          background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>-->
+
+        <h3 class="fw-normal text-muted mb-3 text-focus-in">Conecte-se, aprenda e troque habilidades com o SkillSwap!</h3>
+        <div class="d-flex gap-3 justify-content-center lead fw-normal">
+         <a href="login.html">
+          <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+            Ir para o Login
+          </button>
+         </a>
+        </div>
+      </div>
+      <div class="product-device shadow-sm d-none d-md-block"></div>
+      <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+      <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 style="line-height: 2;" class="display-5">O que é o SkillSwap?</h2>
+          <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+            type="module"></script>
+
+          <dotlottie-player src="https://lottie.host/6ee6ed59-7128-4b69-968f-1bca514e0a16/cpLYigGMoo.json"
+            background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+          <p class="lead">O SkillSwap é uma plataforma de troca de habilidades, focada inicialmente na área de TI. Aqui,
+            você pode conectar-se com profissionais que têm as habilidades que você deseja aprender, e ao mesmo tempo,
+            compartilhar seu conhecimento em áreas que você domina.</p>
+          <p class="lead">Por exemplo, se você quer aprender mais sobre desenvolvimento web e possui experiência em
+            segurança da informação, pode encontrar alguém que esteja buscando exatamente o oposto. Vocês podem se
+            ajudar em projetos, trocar experiências, e até marcar sessões de aprendizado colaborativo, tudo dentro da
+            plataforma. É uma maneira eficiente de aprimorar suas habilidades em TI enquanto contribui para o
+            crescimento de outros!</p>
+        </div>
+
+      </div>
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+
+        <!--Animação-->
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+          type="module"></script>
+        <dotlottie-player src="https://lottie.host/a859fe5d-d5f7-408d-bcbf-a1723376fd37/TNfE1iivQE.json"
+          background="transparent" speed="1" loop autoplay></dotlottie-player>
+
+      </div>
+    </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+      <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+
+        </div>
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+          type="module"></script>
+        <dotlottie-player src="https://lottie.host/b87e428a-d34e-4bb5-8fdc-ce77f506a8a7/Qkm35H5i95.json"
+          background="transparent" speed="1" style="width: 600px; height: 600px;" loop autoplay></dotlottie-player>
+      </div>
+      <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 style="line-height: 2;" class="display-5">Como funciona?</h2>
+          <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+            type="module"></script>
+
+          <dotlottie-player src="https://lottie.host/3fc3346d-04de-4414-b7aa-3c1f1d7e85cb/ufyzUgthsW.json"
+            background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+          <p class="lead">No SkillSwap, você começa criando um perfil com suas habilidades de TI e o que deseja
+            aprender. O app sugere profissionais que possuem o conhecimento que você busca e estão interessados no que
+            você pode oferecer. Assim, você pode explorar perfis, escolher com quem trocar conhecimento e se conectar
+            para iniciar a troca.</p>
+
+          <p class="lead">Depois de encontrar alguém, vocês podem combinar como vão aprender juntos, seja por chat,
+            videochamada ou colaborando em projetos. Após as sessões, é possível avaliar a experiência, ajudando a
+            comunidade a crescer e destacar os melhores colaboradores. Dessa forma, você aprende algo novo enquanto
+            ensina suas próprias habilidades.</p>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!--<div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>-->
+
+
+
+  </main>
+
+  <div class="teste">
+    <footer class="container py-5">
+      <div class="row">
+        <div class="col-12 col-md">
+          
+          
+        </div>
+       
+        <p class="p">© 2024 SkillSwap. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+    <script src="bootstrap.bundle.min.js"></script>
+  </div>
+  
+  </body>
+  
+  </html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="Logo.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Barra de Navegação */
+        .navbar {
+            background-color: #222;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar .navbar-brand {
+            color: white;
+            font-size: 24px;
+        }
+
+        .navbar .navbar-search {
+            flex-grow: 1;
+            max-width: 500px;
+            margin-right: 20px;
+        }
+
+        .navbar .navbar-search input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+        }
+
+        .navbar .profile-menu {
+            position: relative;
+        }
+
+        .navbar .profile-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            min-width: 150px;
+        }
+
+        .profile-dropdown a {
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .profile-menu.open .profile-dropdown {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 100%;
+            background-color: #222;
+            color: white;
+            padding-top: 50px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 20px;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #444;
+        }
+
+        .sidebar .active {
+            background-color: #28a745;
+        }
+
+        /* Sidebar de lista de chats */
+        .chat-sidebar {
+            margin-top: 80px;
+            position: fixed;
+            top: 0;
+            left: 80px;
+            /* Ajuste para evitar sobreposição com a primeira sidebar */
+            width: 280px;
+            /* Largura ajustada para um visual mais equilibrado */
+            height: 100%;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .chat-sidebar .chat-list {
+            padding-left: 10px;
+        }
+
+        .chat-sidebar .chat-list a {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eee;
+            color: black;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .chat-sidebar .chat-list a:hover {
+            background-color: #ddd;
+        }
+
+        .chat-sidebar .chat-list a.active-chat {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .chat-sidebar .chat-list .last-message {
+            font-size: 12px;
+            color: #777;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 60%;
+            /* Ajuste para a mensagem não ultrapassar o limite */
+        }
+
+        .chat-sidebar .chat-list .message-time {
+            font-size: 12px;
+            color: #777;
+            max-width: 40%;
+            /* Coloca o horário ao lado direito */
+            text-align: right;
+        }
+
+        /* Main Content */
+        .content {
+            margin-left: 360px;
+            /* Ajuste para evitar sobreposição com a sidebar de chats */
+            width: calc(100% - 360px);
+            padding: 20px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Chat Header */
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+            padding: 15px;
+            background-color: #f8f9fa;
+        }
+
+        .chat-header h2 {
+            margin: 0;
+        }
+
+        .chat-header button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .chat-header button:hover {
+            background-color: #218838;
+        }
+
+        /* Messages Section */
+        .messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f1f1f1;
+            margin-top: 10px;
+            border-radius: 8px;
+            max-height: 70vh;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            justify-content: flex-start;
+            /* Garantir que a posição inicial é à esquerda */
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+            /* Alinha as mensagens enviadas à direita */
+        }
+
+        .message .message-bubble {
+            max-width: 60%;
+            padding: 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.sent .message-bubble {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .message.received .message-bubble {
+            background-color: #e9f5e9;
+            color: #333;
+        }
+
+
+        .message .message-time {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .input-section {
+            display: flex;
+            padding: 10px;
+            border-top: 2px solid #ddd;
+            background-color: #fff;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            width: 100%;
+            /* Garante que ocupe toda a largura */
+            background-color: white;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-section input {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        .input-section button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .input-section button:hover {
+            background-color: #218838;
+        }
+
+        .input-section .attach-btn,
+        .input-section .emoji-btn {
+            background-color: transparent;
+            border: none;
+            color: #28a745;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .input-section .attach-btn:hover,
+        .input-section .emoji-btn:hover {
+            color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"></a>
+
+        <!-- Barra de Pesquisa -->
+        <div class="navbar-search">
+            <input type="text" class="form-control" placeholder="Pesquisar...">
+        </div>
+
+        <!-- Foto de Perfil e Menu -->
+        <div class="profile-menu" id="profileMenu">
+            <img src="https://via.placeholder.com/150" alt="Foto de Perfil" id="profileImage">
+            <div class="profile-dropdown">
+                <a href="#">Configurações</a>
+                <a href="#" onclick="logOut()">Encerrar Sessão</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar de Navegação -->
+    <div class="sidebar">
+        <a href="index2.html"><i class="fas fa-home"></i></a>
+        <a href="chat.html" class="active"><i class="fas fa-comments"></i></a>
+        <a href="calendar.html"><i class="fas fa-calendar-alt"></i></a>
+    </div>
+
+    <!-- Sidebar de Lista de Chats -->
+    <div class="chat-sidebar">
+        <div class="chat-list">
+            <a href="#" class="chat active-chat" onclick="switchChat(0)">
+                <div>
+                    João Silva
+                    <div class="last-message">Olá! Como você está?</div>
+                </div>
+                <div class="message-time">10:30 AM</div>
+            </a>
+            <a href="#" class="chat" onclick="switchChat(1)">
+                <div>
+                    Maria Oliveira
+                    <div class="last-message">Oi! Vamos marcar um café?</div>
+                </div>
+                <div class="message-time">9:45 AM</div>
+            </a>
+            <a href="#" class="chat" onclick="switchChat(2)">
+                <div>
+                    Carlos Souza
+                    <div class="last-message">Você está disponível?</div>
+                </div>
+                <div class="message-time">8:15 PM</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content (Área de Conversa) -->
+    <div class="content">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div>
+                <h2 id="chatName">João Silva</h2>
+                <p id="chatStatus">Ativo agora</p>
+            </div>
+            <button class="btn btn-outline-primary btn-sm"><i class="fas fa-phone-alt"></i> Chamada</button>
+        </div>
+
+        <!-- Messages Section -->
+        <div class="messages" id="messageContainer">
+            <!-- Placeholder for chat messages -->
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <button class="attach-btn"><i class="fas fa-paperclip"></i></button>
+            <button class="emoji-btn"><i class="fas fa-smile"></i></button>
+            <input type="text" id="messageInput" placeholder="Digite uma mensagem..." />
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const chats = [
+            {
+                name: "João Silva",
+                status: "Ativo agora",
+                messages: [
+                    { type: "received", text: "Olá! Como você está?", time: "10:30 AM" },
+                    { type: "sent", text: "Estou bem, obrigado! E você?", time: "10:32 AM" }
+                ]
+            },
+            {
+                name: "Maria Oliveira",
+                status: "Indisponível",
+                messages: [
+                    { type: "received", text: "Oi! Vamos marcar um café?", time: "9:45 AM" },
+                    { type: "sent", text: "Claro! Quando você pode?", time: "9:50 AM" }
+                ]
+            },
+            {
+                name: "Carlos Souza",
+                status: "Ativo agora",
+                messages: [
+                    { type: "received", text: "Você está disponível?", time: "8:15 PM" },
+                    { type: "sent", text: "Sim, estou. O que você precisa?", time: "8:20 PM" }
+                ]
+            }
+        ];
+
+        let activeChatIndex = 0;
+
+        function displayChat(index) {
+            const chat = chats[index];
+            document.getElementById("chatName").textContent = chat.name;
+            document.getElementById("chatStatus").textContent = chat.status;
+
+            const messageContainer = document.getElementById("messageContainer");
+            messageContainer.innerHTML = '';
+
+            chat.messages.forEach(msg => {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message", msg.type);
+
+                const messageBubble = document.createElement("div");
+                messageBubble.classList.add("message-bubble");
+                messageBubble.textContent = msg.text;
+
+                const messageTime = document.createElement("div");
+                messageTime.classList.add("message-time");
+                messageTime.textContent = msg.time;
+
+                messageBubble.appendChild(messageTime);
+                messageDiv.appendChild(messageBubble);
+                messageContainer.appendChild(messageDiv);
+            });
+
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+
+            document.querySelectorAll('.chat-sidebar .chat').forEach((chatLink, i) => {
+                chatLink.classList.toggle('active-chat', i === index);
+            });
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById("messageInput");
+            const messageText = messageInput.value.trim();
+
+            if (messageText !== "") {
+                const messageContainer = document.getElementById("messageContainer");
+
+                const message = {
+                    type: 'sent',
+                    text: messageText,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                };
+
+                chats[activeChatIndex].messages.push(message);
+
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message", "sent");
+
+                const messageBubble = document.createElement("div");
+                messageBubble.classList.add("message-bubble");
+                messageBubble.textContent = messageText;
+
+                const messageTime = document.createElement("div");
+                messageTime.classList.add("message-time");
+                messageTime.textContent = message.time;
+
+                messageBubble.appendChild(messageTime);
+                messageDiv.appendChild(messageBubble);
+                messageContainer.appendChild(messageDiv);
+
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+                messageInput.value = "";
+            }
+        }
+
+        function switchChat(chatIndex) {
+            activeChatIndex = chatIndex;
+            displayChat(activeChatIndex);
+        }
+
+        // Função para abrir/fechar o menu de perfil
+        const profileMenu = document.getElementById('profileMenu');
+        const profileImage = document.getElementById('profileImage');
+
+        profileImage.addEventListener('click', () => {
+            profileMenu.classList.toggle('open');
+        });
+
+        // Função para simular o encerramento da sessão
+        function logOut() {
+            alert("Sessão encerrada!");
+            // Redireciona para outra página após o alerta
+            window.location.href = 'index.html';  // Substitua 'login.html' pelo arquivo para o qual você deseja redirecionar
+        }
+
+        // Inicializa o primeiro chat
+        displayChat(activeChatIndex);
+    </script>
+
+</body>
+
+</html>

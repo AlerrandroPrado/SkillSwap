@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="Logo.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        /* Barra de Navegação */
+        .navbar {
+            background-color: #222;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar .navbar-brand {
+            color: white;
+            font-size: 24px;
+        }
+
+        .navbar .navbar-search {
+            flex-grow: 1;
+            max-width: 500px;
+            margin-right: 20px;
+        }
+
+        .navbar .navbar-search input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+        }
+
+        .navbar .profile-menu {
+            position: relative;
+        }
+
+        .navbar .profile-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            min-width: 150px;
+        }
+
+        .profile-dropdown a {
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .profile-menu.open .profile-dropdown {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 100%;
+            background-color: #222;
+            color: white;
+            padding-top: 50px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 20px;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #444;
+        }
+
+        .sidebar .active {
+            background-color: #28a745;
+        }
+
+        .content {
+            margin-left: 90px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            height: 520px;
+            margin: auto;
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .card-content h3 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .card-content p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .info {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 30px;
+        }
+
+        .green {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .red {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .blue {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .card-text {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .nav-button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <link rel="icon" href="Logo.png" type="image/png">
+</head>
+
+<body>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"></a>
+
+        <!-- Barra de Pesquisa -->
+        <div class="navbar-search">
+            <input type="text" class="form-control" placeholder="Pesquisar...">
+        </div>
+
+        <!-- Foto de Perfil e Menu -->
+        <div class="profile-menu" id="profileMenu">
+            <img src="https://via.placeholder.com/150" alt="Foto de Perfil" id="profileImage2">
+            <div class="profile-dropdown">
+                <a href="#">Configurações</a>
+                <a href="#" onclick="logOut()">Encerrar Sessão</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sidebar">
+        <a href="index2.html" class="active"><i class="fas fa-home"></i></a>
+        <a href="chat.html"><i class="fas fa-comments"></i></a>
+        <a href="calendar.html"><i class="fas fa-calendar-alt"></i></a>
+    </div>
+
+    <div class="content">
+        <h1>Encontre Pessoas com Habilidades em TI</h1>
+
+        <!-- Card de perfil -->
+        <div class="card" id="profileCard">
+            <img id="profileImage" src="https://via.placeholder.com/350x320" alt="Pessoa 1">
+            <div class="card-content">
+                <h3 id="profileName">Carlos Pereira</h3>
+                <p id="profileAge"><strong>Idade:</strong> 30</p>
+                <p id="profileJob"><strong>Cargo:</strong> Desenvolvedor Backend</p>
+                <div class="info" id="profileInfo">
+                    <p><strong>Habilidade que deseja aprender:</strong> Kubernetes</p>
+                    <p><strong>Habilidade que deseja ensinar:</strong> Node.js</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botões de navegação entre as imagens -->
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="prevImage()">⟨</button>
+            <button class="nav-button" onclick="nextImage()">⟩</button>
+        </div>
+
+        <!-- Botões de controle -->
+        <div class="buttons">
+            <button class="btn red" onclick="dislike()"><i class="fas fa-times"></i></button>
+            <button class="btn blue" onclick="goToChat()"><i class="fas fa-comments"></i></button>
+            <button class="btn green" onclick="like()"><i class="fas fa-check"></i></button>
+        </div>
+
+        <div id="statusMessage" style="font-size: 18px; color: #555;"></div>
+    </div>
+
+    <script>
+
+        // Função para abrir/fechar o menu de perfil
+        const profileMenu = document.getElementById('profileMenu');
+        const profileImage2 = document.getElementById('profileImage2');
+
+        profileImage2.addEventListener('click', () => {
+            profileMenu.classList.toggle('open');
+        });
+
+        // Função para simular o encerramento da sessão
+        function logOut() {
+            alert("Sessão encerrada!");
+            // Redireciona para outra página após o alerta
+            window.location.href = 'index.html';  // Substitua 'login.html' pelo arquivo para o qual você deseja redirecionar
+        }
+
+        let profiles = [
+            {
+                name: "Carlos Pereira",
+                age: 30,
+                job: "Desenvolvedor Backend",
+                learn: "Kubernetes",
+                teach: "Node.js",
+                images: ["https://cdn.pixabay.com/photo/2024/11/22/13/20/man-9216455_1280.jpg", "https://cdn.pixabay.com/photo/2016/06/28/05/10/laptop-1483974_1280.jpg", "https://cdn.pixabay.com/photo/2019/05/16/20/15/online-4208112_1280.jpg"]
+            },
+            {
+                name: "Fernanda Lima",
+                age: 27,
+                job: "Desenvolvedora Front-End",
+                learn: "React Native",
+                teach: "JavaScript",
+                images: ["https://cdn.pixabay.com/photo/2022/07/28/22/04/sun-7350734_1280.jpg", "https://cdn.pixabay.com/photo/2022/07/28/22/05/woman-7350740_1280.jpg", "https://cdn.pixabay.com/photo/2017/08/01/12/26/people-2564956_1280.jpg"]
+            },
+            {
+                name: "João Silva",
+                age: 35,
+                job: "Analista de Dados",
+                learn: "Machine Learning",
+                teach: "SQL",
+                images: ["https://cdn.pixabay.com/photo/2016/11/29/02/14/man-1866784_1280.jpg", "https://cdn.pixabay.com/photo/2022/11/03/15/24/coffee-7567749_1280.jpg"]
+            },
+            {
+                name: "Mariana Souza",
+                age: 32,
+                job: "Designer UX/UI",
+                learn: "Figma",
+                teach: "Adobe XD",
+                images: ["https://cdn.pixabay.com/photo/2024/01/10/16/21/woman-8499941_1280.jpg", "https://cdn.pixabay.com/photo/2024/01/10/16/22/woman-8499959_1280.jpg", "https://cdn.pixabay.com/photo/2024/01/10/16/12/woman-8499902_1280.jpg"]
+            }
+        ];
+
+        let currentProfileIndex = 0;
+        let currentImageIndex = 0;
+
+        // Função para carregar o perfil atual
+        function loadProfile() {
+            const profile = profiles[currentProfileIndex];
+            const card = document.getElementById('profileCard');
+            const image = document.getElementById('profileImage');
+            const name = document.getElementById('profileName');
+            const age = document.getElementById('profileAge');
+            const job = document.getElementById('profileJob');
+            const info = document.getElementById('profileInfo');
+            const statusMessage = document.getElementById('statusMessage'); // A mensagem de status
+
+            if (currentProfileIndex < profiles.length) {
+                // Exibir o perfil normalmente
+                image.src = profile.images[currentImageIndex];
+                name.textContent = profile.name;
+                age.textContent = `Idade: ${profile.age}`;
+                job.textContent = `Cargo: ${profile.job}`;
+                info.innerHTML = `<strong>Habilidade que deseja aprender:</strong> ${profile.learn}<br><strong>Habilidade que deseja ensinar:</strong> ${profile.teach}`;
+                statusMessage.textContent = ""; // Limpar a mensagem de esgotado
+                card.style.display = "block";
+            } else {
+                // Exibir mensagem de esgotado
+                card.style.display = "none";
+                statusMessage.textContent = "Você esgotou os seus matchs!";
+            }
+        }
+
+        // Função para ir para o próximo perfil
+        function nextProfile() {
+            if (currentProfileIndex < profiles.length - 1) {
+                currentProfileIndex++;
+                currentImageIndex = 0;  // Resetar a imagem ao mudar de perfil
+                loadProfile();
+            } else {
+                document.getElementById('statusMessage').textContent = "Você esgotou os seus matchs!";
+            }
+        }
+
+        // Função para ir para o perfil anterior
+        function prevProfile() {
+            if (currentProfileIndex > 0) {
+                currentProfileIndex--;
+                currentImageIndex = 0;
+                loadProfile();
+            }
+        }
+
+        // Função para navegar para a próxima imagem
+        function nextImage() {
+            const profile = profiles[currentProfileIndex];
+            if (currentImageIndex < profile.images.length - 1) {
+                currentImageIndex++;
+                loadProfile();
+            }
+        }
+
+        // Função para navegar para a imagem anterior
+        function prevImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                loadProfile();
+            }
+        }
+
+        // Função para curtir
+        function like() {
+            nextProfile(); // Passa para o próximo perfil
+        }
+
+        // Função para não curtir
+        function dislike() {
+            nextProfile(); // Passa para o próximo perfil
+        }
+
+        // Função para ir para o chat
+        function goToChat() {
+            window.location.href = "chat.html";
+        }
+
+        // Carregar o primeiro perfil
+        loadProfile();
+
+    </script>
+
+</body>
+
+</html>
